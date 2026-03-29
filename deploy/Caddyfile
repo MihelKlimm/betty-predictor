@@ -1,0 +1,31 @@
+# Replace betty.app with your actual domain
+betty.app {
+    # API requests → FastAPI backend
+    handle /api/* {
+        reverse_proxy localhost:8000
+    }
+
+    # Telegram Mini App (React SPA)
+    # All non-API routes serve the frontend, with SPA fallback
+    handle {
+        root * /var/www/betty/frontend
+        try_files {path} /index.html
+        file_server
+    }
+
+    # Security headers
+    header {
+        X-Content-Type-Options nosniff
+        X-Frame-Deny SAMEORIGIN
+        Referrer-Policy strict-origin-when-cross-origin
+    }
+
+    # Gzip compression
+    encode gzip
+
+    # Logs
+    log {
+        output file /var/log/caddy/betty.log
+        format json
+    }
+}

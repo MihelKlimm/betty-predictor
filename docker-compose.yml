@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: betty-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - GOOGLE_SHEETS_ID=${GOOGLE_SHEETS_ID}
+      - GOOGLE_SHEETS_CREDENTIALS=${GOOGLE_SHEETS_CREDENTIALS}
+      - DATABASE_URL=sqlite:///./betty.db
+      - TWA_APP_URL=${TWA_APP_URL}
+    volumes:
+      - ./backend:/app
+      - ./credentials.json:/app/credentials.json:ro
+    networks:
+      - betty-network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: betty-frontend
+    ports:
+      - "80:80"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+      - VITE_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - VITE_APP_URL=${TWA_APP_URL}
+    depends_on:
+      - backend
+    networks:
+      - betty-network
+
+networks:
+  betty-network:
+    driver: bridge

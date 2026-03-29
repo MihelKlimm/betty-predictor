@@ -1,0 +1,16 @@
+# Fly.io terminates TLS at the edge, so Caddy listens on plain HTTP
+:8080 {
+    # API requests → FastAPI backend
+    handle /api/* {
+        reverse_proxy localhost:8000
+    }
+
+    # Static frontend + SPA fallback
+    handle {
+        root * /srv/frontend
+        try_files {path} /index.html
+        file_server
+    }
+
+    encode gzip
+}

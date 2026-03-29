@@ -1,0 +1,63 @@
+.landing-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #FFD700; /* Bright yellow */
+  padding: 20px;
+}
+
+.landing-content {
+  text-align: center;
+  background: white;
+  border-radius: 20px;
+  padding: 60px 40px;
+  max-width: 500px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.logo {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 30px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.landing-content h1 {
+  font-size: 32px;
+  color: #333;
+  margin: 20px 0 10px 0;
+  font-weight: bold;
+}
+
+.slogan {
+  font-size: 18px;
+  color: #666;
+  font-style: italic;
+  margin: 20px 0 40px 0;
+  line-height: 1.5;
+}
+
+.launch-btn {
+  background: #FFD700; /* Bright yellow */
+  color: #333;
+  border: 2px solid #FFA500;
+  padding: 16px 40px;
+  font-size: 18px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+}
+
+.launch-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+}
+
+.launch-btn:active {
+  transform: translateY(0);
+}

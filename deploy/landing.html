@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Betty - World Cup 2026 Predictions</title>
+    <meta name="description" content="Predict World Cup 2026 scores, compete on leaderboards, and earn TON rewards. A Telegram Mini App.">
+    <meta property="og:title" content="Betty - World Cup 2026 Predictions">
+    <meta property="og:description" content="Sniff the score - get TONn of emotions!">
+    <meta property="og:type" content="website">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .logo-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1a73e8, #0d47a1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 0 40px rgba(26, 115, 232, 0.3);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #888;
+            margin-bottom: 0.5rem;
+        }
+
+        .slogan {
+            font-size: 1.2rem;
+            color: #1a73e8;
+            margin-bottom: 3rem;
+            font-style: italic;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            max-width: 700px;
+            width: 100%;
+            margin-bottom: 3rem;
+        }
+
+        .feature {
+            background: #151515;
+            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: left;
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature h3 {
+            font-size: 1rem;
+            color: #fff;
+            margin-bottom: 0.3rem;
+        }
+
+        .feature p {
+            font-size: 0.85rem;
+            color: #777;
+            line-height: 1.4;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #1a73e8;
+            color: #fff;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .cta-btn:hover {
+            background: #1565c0;
+            transform: translateY(-1px);
+        }
+
+        .cta-btn:active {
+            transform: translateY(0);
+        }
+
+        .tg-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #444;
+            font-size: 0.8rem;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        footer a {
+            color: #555;
+            text-decoration: none;
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2rem; }
+            .features { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="logo-circle">&#9917;</div>
+
+        <h1>Betty</h1>
+        <p class="subtitle">World Cup 2026 Predictions</p>
+        <p class="slogan">Sniff the score &mdash; get TONn of emotions!</p>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">&#127942;</div>
+                <h3>Predict Scores</h3>
+                <p>Forecast match results for every World Cup 2026 game and earn points.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">&#128200;</div>
+                <h3>Leaderboards</h3>
+                <p>Compete with friends and climb the weekly and overall rankings.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">&#128142;</div>
+                <h3>TON Rewards</h3>
+                <p>Top predictors earn TON cryptocurrency rewards every week.</p>
+            </div>
+        </div>
+
+        <!-- Replace YOUR_BOT_USERNAME with actual bot username -->
+        <a href="https://t.me/betty_cup_bot/app" class="cta-btn">
+            <svg class="tg-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+            </svg>
+            Open in Telegram
+        </a>
+    </div>
+
+    <footer>
+        <p>Betty Predictor &copy; 2025. Built for World Cup 2026.</p>
+    </footer>
+</body>
+</html>
