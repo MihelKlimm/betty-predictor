@@ -19,7 +19,7 @@ export interface MatchData {
 
 // Team codes that have card images in /teams/Cards/
 export const TEAM_CARDS: Record<string, boolean> = {
-  MEX: true, SAF: true, CAN: true, BIH: true, USA: true, PAR: true,
+  MEX: true, SAF: true, CAN: true, BIH: true, USA: true, PAR: true, BRA: true, MOR: true,
 }
 
 export function getCardImage(code: string): string | null {
@@ -57,7 +57,7 @@ export const WEEK1_MATCHES: MatchData[] = [
     group: 'C',
     venue: 'New Jersey',
     home: { name: 'Brazil', code: 'BRA', flag: '\u{1F1E7}\u{1F1F7}', keyPlayer: 'Vinicius Jr' },
-    away: { name: 'Morocco', code: 'MAR', flag: '\u{1F1F2}\u{1F1E6}', keyPlayer: 'Achraf Hakimi' },
+    away: { name: 'Morocco', code: 'MOR', flag: '\u{1F1F2}\u{1F1E6}', keyPlayer: 'Achraf Hakimi' },
   },
   {
     id: 5,
