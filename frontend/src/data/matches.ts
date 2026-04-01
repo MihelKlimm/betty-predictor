@@ -19,7 +19,7 @@ export interface MatchData {
 
 // Team codes that have card images in /teams/Cards/
 export const TEAM_CARDS: Record<string, boolean> = {
-  MEX: true, SAF: true, CAN: true, BIH: true,
+  MEX: true, SAF: true, CAN: true, BIH: true, USA: true, PAR: true,
 }
 
 export function getCardImage(code: string): string | null {
