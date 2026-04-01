@@ -1,7 +1,7 @@
 import React from 'react'
 import '../styles/App.css'
 
-type Page = 'landing' | 'champions' | 'about' | 'matches' | 'leaderboard'
+type Page = 'matches' | 'champions' | 'leaderboard' | 'about' | 'landing'
 
 interface NavigationProps {
   currentPage: Page
@@ -12,44 +12,32 @@ export const Navigation: React.FC<NavigationProps> = ({ currentPage, onPageChang
   return (
     <nav className="navigation">
       <button
-        className={`nav-button ${currentPage === 'landing' ? 'active' : ''}`}
-        onClick={() => onPageChange('landing')}
-        title="Home"
+        className={`nav-button ${currentPage === 'matches' ? 'active' : ''}`}
+        onClick={() => onPageChange('matches')}
       >
-        <span className="icon">🏠</span>
-        <span className="label">Home</span>
+        <span className="icon">&#9917;</span>
+        <span className="label">Matches</span>
       </button>
       <button
         className={`nav-button ${currentPage === 'champions' ? 'active' : ''}`}
         onClick={() => onPageChange('champions')}
-        title="Champions"
       >
-        <span className="icon">🏆</span>
+        <span className="icon">&#127942;</span>
         <span className="label">Champions</span>
-      </button>
-      <button
-        className={`nav-button ${currentPage === 'about' ? 'active' : ''}`}
-        onClick={() => onPageChange('about')}
-        title="About"
-      >
-        <span className="icon">ℹ️</span>
-        <span className="label">About</span>
-      </button>
-      <button
-        className={`nav-button ${currentPage === 'matches' ? 'active' : ''}`}
-        onClick={() => onPageChange('matches')}
-        title="Predictions"
-      >
-        <span className="icon">⚽</span>
-        <span className="label">Matches</span>
       </button>
       <button
         className={`nav-button ${currentPage === 'leaderboard' ? 'active' : ''}`}
         onClick={() => onPageChange('leaderboard')}
-        title="Leaderboard"
       >
-        <span className="icon">🥇</span>
+        <span className="icon">&#129351;</span>
         <span className="label">Leaderboard</span>
+      </button>
+      <button
+        className={`nav-button ${currentPage === 'about' ? 'active' : ''}`}
+        onClick={() => onPageChange('about')}
+      >
+        <span className="icon">&#8505;&#65039;</span>
+        <span className="label">About</span>
       </button>
     </nav>
   )

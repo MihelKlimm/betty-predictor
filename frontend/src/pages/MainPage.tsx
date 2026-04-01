@@ -1,79 +1,56 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { MatchCard } from '../components/MatchCard'
-import { useStore } from '../store'
-import { matchesApi } from '../services/api'
+import { WEEK1_MATCHES } from '../data/matches'
 import '../styles/MainPage.css'
 
+const STORAGE_KEY = 'betty_predictions_v2'
+
+function loadPredictions(): Record<number, { outcome: string; score: string }> {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}')
+  } catch {
+    return {}
+  }
+}
+
+function savePredictions(preds: Record<number, { outcome: string; score: string }>) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(preds))
+}
+
 export const MainPage: React.FC = () => {
-  const { activeMatches, setActiveMatches, user } = useStore()
-  const [localMatches, setLocalMatches] = useState(activeMatches)
-  const [filter, setFilter] = useState<'all' | 'upcoming' | 'live' | 'finished'>('all')
+  const [predictions, setPredictions] = React.useState(loadPredictions)
 
-  useEffect(() => {
-    const loadMatches = async () => {
-      try {
-        const { data } = await matchesApi.getActive()
-        setActiveMatches(data)
-        setLocalMatches(data)
-      } catch (error) {
-        console.error('Error loading matches:', error)
-      }
-    }
+  const handlePredict = (matchId: number, outcome: string, score: string) => {
+    const updated = { ...predictions, [matchId]: { outcome, score } }
+    setPredictions(updated)
+    savePredictions(updated)
+  }
 
-    const interval = setInterval(loadMatches, 30000) // Refresh every 30 seconds
-    return () => clearInterval(interval)
-  }, [setActiveMatches])
-
-  const filteredMatches = localMatches.filter((match) => {
-    if (filter === 'all') return true
-    return match.status === filter
-  })
+  const completedCount = Object.keys(predictions).length
 
   return (
     <div className="main-page">
       <div className="page-header">
-        <h1>⚽ World Cup 2026</h1>
-        <div className="user-stats">
-          <span className="stat">Points: <strong>{user?.points || 0}</strong></span>
-          <span className="stat">Predictions: <strong>{user?.predictions_count || 0}</strong></span>
+        <h1>Week 1</h1>
+        <p className="page-subtitle">June 11–17, 2026</p>
+        <div className="progress-bar">
+          <div
+            className="progress-fill"
+            style={{ width: `${(completedCount / WEEK1_MATCHES.length) * 100}%` }}
+          />
         </div>
-      </div>
-
-      <div className="filter-tabs">
-        <button
-          className={`tab ${filter === 'all' ? 'active' : ''}`}
-          onClick={() => setFilter('all')}
-        >
-          All
-        </button>
-        <button
-          className={`tab ${filter === 'upcoming' ? 'active' : ''}`}
-          onClick={() => setFilter('upcoming')}
-        >
-          Upcoming
-        </button>
-        <button
-          className={`tab ${filter === 'live' ? 'active' : ''}`}
-          onClick={() => setFilter('live')}
-        >
-          🔴 Live
-        </button>
-        <button
-          className={`tab ${filter === 'finished' ? 'active' : ''}`}
-          onClick={() => setFilter('finished')}
-        >
-          Finished
-        </button>
+        <p className="progress-text">{completedCount} / {WEEK1_MATCHES.length} predicted</p>
       </div>
 
       <div className="matches-list">
-        {filteredMatches.length === 0 ? (
-          <div className="empty-state">
-            <p>No matches found for this filter</p>
-          </div>
-        ) : (
-          filteredMatches.map((match) => <MatchCard key={match.id} match={match} />)
-        )}
+        {WEEK1_MATCHES.map(match => (
+          <MatchCard
+            key={match.id}
+            match={match}
+            prediction={predictions[match.id] || null}
+            onPredict={handlePredict}
+          />
+        ))}
       </div>
     </div>
   )

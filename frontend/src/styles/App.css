@@ -17,7 +17,7 @@
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-bottom: 110px;
+  padding-bottom: 80px;
 }
 
 .navigation {
@@ -25,9 +25,10 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 70px;
-  background: rgba(255, 255, 255, 0.95);
-  border-top: 1px solid #ececec;
+  height: 64px;
+  background: rgba(31, 28, 9, 0.97);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 194, 13, 0.15);
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -43,23 +44,18 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  font-size: 0.75rem;
+  gap: 3px;
+  font-size: 0.65rem;
   color: #666;
   cursor: pointer;
+  font-family: inherit;
 }
 
 .nav-button.active {
-  color: #111;
+  color: #ffc20d;
   font-weight: 700;
 }
 
 .nav-button .icon {
   font-size: 1.2rem;
-}
-
-@media (max-width: 768px) {
-  .app-content {
-    padding-bottom: 120px;
-  }
 }

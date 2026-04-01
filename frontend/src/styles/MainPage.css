@@ -1,82 +1,48 @@
 .main-page {
-  display: flex;
-  flex-direction: column;
-  padding: var(--spacing-lg);
-  gap: var(--spacing-lg);
+  padding: 1rem;
+  padding-bottom: 2rem;
 }
 
 .page-header {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
+  text-align: center;
+  margin-bottom: 1.2rem;
 }
 
 .page-header h1 {
-  font-size: 1.875rem;
-  font-weight: 700;
-  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #ffc20d;
+  margin-bottom: 0.15rem;
 }
 
-.user-stats {
-  display: flex;
-  gap: var(--spacing-lg);
-  font-size: 0.875rem;
+.page-subtitle {
+  font-size: 0.8rem;
+  color: #888;
+  margin-bottom: 0.8rem;
 }
 
-.user-stats .stat {
-  color: var(--color-text-secondary);
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 194, 13, 0.12);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 0.4rem;
 }
 
-.user-stats strong {
-  color: var(--color-primary);
-  font-weight: 600;
+.progress-fill {
+  height: 100%;
+  background: #ffc20d;
+  border-radius: 3px;
+  transition: width 0.3s ease;
 }
 
-.filter-tabs {
-  display: flex;
-  gap: var(--spacing-sm);
-  overflow-x: auto;
-  padding: 0 0 var(--spacing-sm) 0;
-  margin: 0 -var(--spacing-lg);
-  padding-left: var(--spacing-lg);
-  padding-right: var(--spacing-lg);
-}
-
-.tab {
-  padding: var(--spacing-sm) var(--spacing-md);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  background: var(--color-bg-secondary);
-  color: var(--color-text-secondary);
-  font-size: 0.875rem;
-  font-weight: 500;
-  white-space: nowrap;
-  transition: var(--transition);
-}
-
-.tab:hover {
-  background: var(--color-border);
-}
-
-.tab.active {
-  background: var(--color-primary);
-  color: white;
-  border-color: var(--color-primary);
+.progress-text {
+  font-size: 0.72rem;
+  color: #888;
 }
 
 .matches-list {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
-}
-
-.empty-state {
-  text-align: center;
-  padding: var(--spacing-2xl) var(--spacing-lg);
-  color: var(--color-text-secondary);
-}
-
-.empty-state p {
-  margin: 0;
-  font-size: 0.875rem;
 }

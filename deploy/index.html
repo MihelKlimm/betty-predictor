@@ -484,11 +484,11 @@
         <p class="placeholder-msg">Results will appear here once matches are played.</p>
     </div>
 
-    <!-- 3. MATCHES — current week predictions -->
+    <!-- 3. MATCHES — current week list -->
     <div id="matches" class="section">
         <h2>Matches — Week 1</h2>
-        <p class="section-desc">Predict the score for each match. Winner is determined by your scores.</p>
-        <div id="predictions-container" class="predictions-list">
+        <p class="section-desc">June 11–17, 2026</p>
+        <div id="matches-container" class="predictions-list">
             <p class="loading-msg">Loading matches...</p>
         </div>
     </div>
@@ -540,11 +540,10 @@
             if (link) link.classList.add('active');
         }
 
-        // Google Sheet ID
+        // Google Sheet
         const SHEET_ID = '1h51r7hnqrzKrLdarypIyrTWS4zRkFL-UGQSrSUwMGus';
         const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`;
 
-        // Parse CSV
         function parseCSV(csv) {
             const lines = csv.trim().split('\n');
             const headers = lines[0].split(',').map(h => h.replace(/"/g, '').trim());
@@ -564,95 +563,30 @@
             });
         }
 
-        // Load predictions from localStorage
-        function loadPredictions() {
-            try { return JSON.parse(localStorage.getItem('betty_predictions') || '{}'); }
-            catch { return {}; }
-        }
-
-        // Save prediction
-        function savePrediction(matchId, homeScore, awayScore) {
-            const preds = loadPredictions();
-            preds[matchId] = { home: homeScore, away: awayScore, ts: Date.now() };
-            localStorage.setItem('betty_predictions', JSON.stringify(preds));
-        }
-
-        // Build prediction card
-        function buildCard(match, index) {
-            const parts = match.Matchup.split(' vs. ');
-            const homeTeam = parts[0] || '';
-            const awayTeam = parts[1] || '';
-            const matchId = `match_${index}`;
-            const preds = loadPredictions();
-            const saved = preds[matchId];
-
-            const card = document.createElement('div');
-            card.className = 'predict-card';
-            card.innerHTML = `
-                <div class="predict-header">
-                    <span class="predict-group">Group ${match.Group}</span>
-                    <span class="predict-date">${match.Date}</span>
-                </div>
-                <div class="predict-venue">${match.Venue}</div>
-                <div class="predict-matchup">
-                    <div class="predict-team">
-                        <div class="predict-team-name">${homeTeam}</div>
-                        <input type="number" min="0" max="20" class="predict-score-input" id="${matchId}_home" value="${saved ? saved.home : ''}" placeholder="-">
-                    </div>
-                    <div class="predict-vs">vs</div>
-                    <div class="predict-team">
-                        <div class="predict-team-name">${awayTeam}</div>
-                        <input type="number" min="0" max="20" class="predict-score-input" id="${matchId}_away" value="${saved ? saved.away : ''}" placeholder="-">
-                    </div>
-                </div>
-                <button class="predict-submit ${saved ? 'saved' : ''}" id="${matchId}_btn" onclick="submitPrediction('${matchId}')">
-                    ${saved ? 'Prediction saved' : 'Save prediction'}
-                </button>
-                <div class="predict-result" id="${matchId}_result">
-                    ${saved ? getResultText(saved.home, saved.away, homeTeam, awayTeam) : ''}
-                </div>
-            `;
-            return card;
-        }
-
-        function getResultText(home, away, homeTeam, awayTeam) {
-            const h = parseInt(home), a = parseInt(away);
-            if (isNaN(h) || isNaN(a)) return '';
-            if (h > a) return `Your pick: ${homeTeam} wins ${h}-${a}`;
-            if (a > h) return `Your pick: ${awayTeam} wins ${a}-${h}`;
-            return `Your pick: Draw ${h}-${a}`;
-        }
-
-        function submitPrediction(matchId) {
-            const homeInput = document.getElementById(matchId + '_home');
-            const awayInput = document.getElementById(matchId + '_away');
-            const btn = document.getElementById(matchId + '_btn');
-            const result = document.getElementById(matchId + '_result');
-
-            const h = homeInput.value, a = awayInput.value;
-            if (h === '' || a === '') { btn.textContent = 'Enter both scores!'; return; }
-
-            savePrediction(matchId, h, a);
-            btn.textContent = 'Prediction saved';
-            btn.classList.add('saved');
-
-            const card = btn.closest('.predict-card');
-            const teams = card.querySelectorAll('.predict-team-name');
-            result.textContent = getResultText(h, a, teams[0].textContent, teams[1].textContent);
-        }
-
-        // Fetch and render matches
         async function loadMatches() {
-            const container = document.getElementById('predictions-container');
+            const container = document.getElementById('matches-container');
             try {
                 const resp = await fetch(SHEET_URL);
                 const csv = await resp.text();
                 const matches = parseCSV(csv);
                 container.innerHTML = '';
-                matches.forEach((m, i) => container.appendChild(buildCard(m, i)));
+                matches.forEach(m => {
+                    const card = document.createElement('div');
+                    card.className = 'match-card';
+                    card.innerHTML = `
+                        <div class="predict-header">
+                            <span class="predict-group">Group ${m.Group}</span>
+                            <span class="predict-date">${m.Date}</span>
+                        </div>
+                        <div class="predict-venue">${m.Venue}</div>
+                        <div style="text-align:center;font-size:1.05rem;font-weight:600;color:#e0e0e0;padding:0.3rem 0;">
+                            ${m.Matchup}
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
             } catch (err) {
-                container.innerHTML = '<p class="placeholder-msg">Could not load matches. Check back later.</p>';
-                console.error('Failed to load matches:', err);
+                container.innerHTML = '<p class="placeholder-msg">Could not load matches.</p>';
             }
         }
 

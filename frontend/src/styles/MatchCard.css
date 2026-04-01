@@ -1,247 +1,238 @@
-.match-card {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  background: var(--color-bg-secondary);
-  overflow: hidden;
-  transition: var(--transition);
+/* MatchCard — Betty yellow/black theme */
+.mc {
+  background: #2a2508;
+  border: 1px solid rgba(255, 194, 13, 0.2);
+  border-radius: 16px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  transition: all 0.2s ease;
 }
 
-.match-card:hover {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.mc--done {
+  border-color: rgba(255, 194, 13, 0.4);
+  background: #2a2508;
 }
 
-.match-card.finished {
-  opacity: 0.7;
-}
-
-.match-card.live {
-  border-color: var(--color-error);
-  background: rgba(239, 68, 68, 0.05);
-}
-
-.match-header {
+.mc__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--spacing-md);
-  border-bottom: 1px solid var(--color-border);
-  background: var(--color-bg);
-  font-size: 0.875rem;
+  margin-bottom: 0.3rem;
 }
 
-.match-date {
-  color: var(--color-text-secondary);
+.mc__group {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #ffc20d;
+  background: rgba(255, 194, 13, 0.15);
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
 }
 
-.match-status {
-  font-weight: 600;
-  font-size: 0.75rem;
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: var(--radius-sm);
-  background: var(--color-bg-secondary);
+.mc__date {
+  font-size: 0.72rem;
+  color: #888;
 }
 
-.match-status.upcoming {
-  color: var(--color-warning);
+.mc__venue {
+  font-size: 0.68rem;
+  color: #666;
+  font-style: italic;
+  margin-bottom: 0.8rem;
 }
 
-.match-status.live {
-  color: var(--color-error);
-  background: rgba(239, 68, 68, 0.1);
-  animation: pulse 2s ease-in-out infinite;
+/* Teams row */
+.mc__teams {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
 }
 
-.match-status.finished {
-  color: var(--color-success);
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
-}
-
-.match-body {
-  padding: var(--spacing-lg);
+.mc__team {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg);
-}
-
-.match-details {
-  display: flex;
-  justify-content: space-around;
   align-items: center;
-  gap: var(--spacing-lg);
-}
-
-.team {
-  flex: 1;
   text-align: center;
+  gap: 0.2rem;
 }
 
-.team-name {
-  font-weight: 600;
-  font-size: 0.875rem;
-  margin-bottom: var(--spacing-sm);
-  color: var(--color-text);
+.mc__flag {
+  font-size: 2.4rem;
+  line-height: 1;
 }
 
-.team-score {
-  font-size: 1.875rem;
+.mc__name {
+  font-size: 0.85rem;
   font-weight: 700;
-  color: var(--color-primary);
+  color: #e0e0e0;
 }
 
-.match-vs {
-  padding: 0 var(--spacing-md);
+.mc__player {
+  font-size: 0.68rem;
+  color: #ffc20d;
+  opacity: 0.8;
 }
 
-.vs {
-  color: var(--color-text-secondary);
-  font-size: 0.75rem;
-  font-weight: 600;
+.mc__vs {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #555;
+  padding-top: 0.8rem;
   letter-spacing: 0.1em;
 }
 
-.final-score {
-  font-size: 1.5rem;
+/* Outcome buttons */
+.mc__outcomes {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.mc__btn {
+  padding: 0.65rem 0.5rem;
+  border-radius: 10px;
   font-weight: 700;
-  color: var(--color-success);
-}
-
-.prediction-buttons {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--spacing-md);
-}
-
-.btn {
-  padding: var(--spacing-md);
-  border-radius: var(--radius-md);
-  font-weight: 600;
-  font-size: 0.875rem;
-  transition: var(--transition);
+  font-size: 0.8rem;
   border: 2px solid transparent;
+  transition: all 0.15s ease;
+  font-family: inherit;
+  cursor: pointer;
 }
 
-.btn:disabled {
+.mc__btn--w1,
+.mc__btn--w2 {
+  background: rgba(255, 194, 13, 0.12);
+  color: #ffc20d;
+  border-color: rgba(255, 194, 13, 0.25);
+}
+
+.mc__btn--draw {
+  background: rgba(255, 255, 255, 0.06);
+  color: #aaa;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.mc__btn--active {
+  background: #ffc20d !important;
+  color: #1f1c09 !important;
+  border-color: #ffc20d !important;
+  transform: scale(1.02);
+}
+
+.mc__btn:disabled {
   opacity: 0.5;
-  cursor: not-allowed;
+  cursor: default;
 }
 
-.btn-1,
-.btn-2 {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary));
-  color: white;
+.mc__btn:not(:disabled):hover {
+  transform: translateY(-1px);
 }
 
-.btn-1:hover:not(:disabled),
-.btn-2:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 136, 204, 0.3);
+/* Scores */
+.mc__scores {
+  margin-bottom: 0.8rem;
 }
 
-.btn-x {
-  background: var(--color-bg-secondary);
-  color: var(--color-text);
-  border: 2px solid var(--color-border);
-}
-
-.btn-x:hover:not(:disabled) {
-  background: var(--color-border);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.btn-primary {
-  background: var(--color-primary);
-  color: white;
-  width: 100%;
-}
-
-.btn-primary:hover:not(:disabled) {
-  background: #0078b8;
-}
-
-.btn-secondary {
-  background: var(--color-bg-secondary);
-  color: var(--color-text);
-  border: 1px solid var(--color-border);
-  width: 100%;
-}
-
-.btn-secondary:hover:not(:disabled) {
-  background: var(--color-border);
-}
-
-.prediction-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-}
-
-.selected-prediction {
-  padding: var(--spacing-md);
-  background: rgba(16, 185, 129, 0.1);
-  border-radius: var(--radius-md);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  font-size: 0.875rem;
-}
-
-.selected-prediction p {
-  margin: 0;
-  color: var(--color-success);
-}
-
-.score-input-section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-}
-
-.score-input-section label {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  font-size: 0.875rem;
-  cursor: pointer;
-}
-
-.score-input-section input[type='checkbox'] {
-  cursor: pointer;
-}
-
-.score-inputs {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: var(--spacing-sm);
-}
-
-.score-inputs input {
-  width: 80px;
-  padding: var(--spacing-sm);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  text-align: center;
+.mc__scores-label {
+  font-size: 0.72rem;
+  color: #888;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
   font-weight: 600;
+  letter-spacing: 0.05em;
 }
 
-.prediction-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-md);
+.mc__scores-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
 }
 
-.prediction-actions .btn-primary {
+.mc__score {
+  padding: 0.45rem 0.7rem;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  background: rgba(255, 194, 13, 0.08);
+  color: #ccc;
+  border: 1px solid rgba(255, 194, 13, 0.15);
+  transition: all 0.12s ease;
+}
+
+.mc__score--active {
+  background: #ffc20d;
+  color: #1f1c09;
+  border-color: #ffc20d;
+}
+
+.mc__score:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.mc__score:not(:disabled):hover {
+  background: rgba(255, 194, 13, 0.2);
+  color: #ffc20d;
+}
+
+/* Confirm */
+.mc__confirm {
   width: 100%;
-  grid-column: 1 / -1;
+  padding: 0.75rem;
+  background: #ffc20d;
+  color: #1f1c09;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
 
-.prediction-actions .btn-secondary {
-  width: 100%;
+.mc__confirm:hover {
+  background: #e0aa00;
+}
+
+.mc__confirm:active {
+  transform: translateY(1px);
+}
+
+/* Saved state */
+.mc__saved {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 194, 13, 0.1);
+  border-radius: 10px;
+  padding: 0.6rem 0.8rem;
+}
+
+.mc__saved-text {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #ffc20d;
+}
+
+.mc__edit {
+  font-size: 0.72rem;
+  color: #888;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  padding: 0.3rem 0.7rem;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.mc__edit:hover {
+  color: #ffc20d;
+  border-color: rgba(255, 194, 13, 0.3);
 }
