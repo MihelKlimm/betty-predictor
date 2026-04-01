@@ -109,22 +109,22 @@ export const WEEK1_MATCHES: MatchData[] = [
   },
 ]
 
-// All scores from 9:0 down to 0:9
+// All scores where total goals <= 9 (e.g. 9:0 yes, 6:9 no)
 export const ALL_SCORES: string[] = (() => {
   const scores: string[] = []
-  // Home wins: 9:0, 8:0, 8:1, 7:0, ... 1:0
+  // Home wins
   for (let h = 9; h >= 1; h--) {
-    for (let a = 0; a < h; a++) {
+    for (let a = 0; a < h && h + a <= 9; a++) {
       scores.push(`${h}:${a}`)
     }
   }
-  // Draws: 0:0, 1:1, ... 9:9
-  for (let d = 0; d <= 9; d++) {
+  // Draws
+  for (let d = 0; d <= 4; d++) {
     scores.push(`${d}:${d}`)
   }
-  // Away wins: 0:1, 0:2, 1:2, ... 0:9
-  for (let a = 2; a <= 9; a++) {
-    for (let h = 0; h < a; h++) {
+  // Away wins
+  for (let a = 9; a >= 2; a--) {
+    for (let h = 0; h < a && h + a <= 9; h++) {
       scores.push(`${h}:${a}`)
     }
   }
