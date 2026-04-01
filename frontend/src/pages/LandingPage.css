@@ -1,63 +1,70 @@
-.landing-page {
+.start-page {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: #ffd90f; /* Bright yellow */
-  padding: 20px;
+  background: #1f1c09;
+  padding: 2rem;
 }
 
-.landing-content {
+.start-content {
   text-align: center;
-  background: white;
-  border-radius: 20px;
-  padding: 60px 40px;
-  max-width: 500px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  max-width: 340px;
+  width: 100%;
 }
 
-.logo {
-  width: 200px;
-  height: 200px;
+.start-logo {
+  width: 160px;
+  height: 160px;
   object-fit: cover;
   border-radius: 50%;
-  margin-bottom: 30px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  border: 3px solid #ffc20d;
+  box-shadow: 0 0 40px rgba(255, 194, 13, 0.3);
+  margin-bottom: 1.5rem;
 }
 
-.landing-content h1 {
-  font-size: 32px;
-  color: #333;
-  margin: 20px 0 10px 0;
-  font-weight: bold;
+.start-title {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #ffc20d;
+  margin-bottom: 0.2rem;
 }
 
-.slogan {
-  font-size: 18px;
-  color: #666;
+.start-subtitle {
+  font-size: 0.95rem;
+  color: #888;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+}
+
+.start-slogan {
+  font-size: 1.05rem;
+  color: #ccc;
   font-style: italic;
-  margin: 20px 0 40px 0;
-  line-height: 1.5;
+  margin-bottom: 2.5rem;
+  line-height: 1.4;
 }
 
-.launch-btn {
-  background: #ffd90f; /* Bright yellow */
-  color: #333;
-  border: 2px solid #FFA500;
-  padding: 16px 40px;
-  font-size: 18px;
-  border-radius: 50px;
+.start-btn {
+  background: #ffc20d;
+  color: #1f1c09;
+  border: none;
+  padding: 1rem 3rem;
+  font-size: 1.15rem;
+  font-weight: 800;
+  border-radius: 60px;
   cursor: pointer;
-  font-weight: bold;
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 4px 15px rgba(255, 217, 15, 0.4);
+  font-family: inherit;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 4px 24px rgba(255, 194, 13, 0.35);
 }
 
-.launch-btn:hover {
+.start-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 217, 15, 0.6);
+  box-shadow: 0 6px 30px rgba(255, 194, 13, 0.5);
 }
 
-.launch-btn:active {
+.start-btn:active {
   transform: translateY(0);
 }

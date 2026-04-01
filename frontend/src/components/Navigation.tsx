@@ -1,7 +1,7 @@
 import React from 'react'
 import '../styles/App.css'
 
-type Page = 'matches' | 'champions' | 'leaderboard' | 'about' | 'landing'
+type Page = 'start' | 'matches' | 'champions' | 'leaderboard' | 'about'
 
 interface NavigationProps {
   currentPage: Page

@@ -8,10 +8,10 @@ import { ChampionsPage } from './pages/ChampionsPage'
 import { LeaderboardPage } from './pages/LeaderboardPage'
 import { AboutPage } from './pages/AboutPage'
 
-type Page = 'matches' | 'champions' | 'leaderboard' | 'about' | 'landing'
+type Page = 'start' | 'matches' | 'champions' | 'leaderboard' | 'about'
 
 function App() {
-  const [currentPage, setCurrentPage] = React.useState<Page>('matches')
+  const [currentPage, setCurrentPage] = React.useState<Page>('start')
   const { tg } = useTelegram()
 
   React.useEffect(() => {
@@ -21,6 +21,12 @@ function App() {
     }
   }, [tg])
 
+  const handleStart = () => setCurrentPage('matches')
+
+  if (currentPage === 'start') {
+    return <LandingPage onStart={handleStart} />
+  }
+
   return (
     <div className="app">
       <div className="app-content">
@@ -28,7 +34,6 @@ function App() {
         {currentPage === 'champions' && <ChampionsPage />}
         {currentPage === 'leaderboard' && <LeaderboardPage />}
         {currentPage === 'about' && <AboutPage />}
-        {currentPage === 'landing' && <LandingPage />}
       </div>
       <Navigation currentPage={currentPage} onPageChange={setCurrentPage} />
     </div>
