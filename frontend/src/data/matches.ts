@@ -5,14 +5,25 @@ export interface MatchData {
   venue: string
   home: {
     name: string
+    code: string
     flag: string
     keyPlayer: string
   }
   away: {
     name: string
+    code: string
     flag: string
     keyPlayer: string
   }
+}
+
+// Team codes that have card images in /teams/Cards/
+export const TEAM_CARDS: Record<string, boolean> = {
+  MEX: true, SAF: true, CAN: true, BIH: true,
+}
+
+export function getCardImage(code: string): string | null {
+  return TEAM_CARDS[code] ? `/teams/Cards/${code}.png` : null
 }
 
 export const WEEK1_MATCHES: MatchData[] = [
@@ -21,101 +32,101 @@ export const WEEK1_MATCHES: MatchData[] = [
     date: 'Thu, June 11',
     group: 'A',
     venue: 'Mexico City',
-    home: { name: 'Mexico', flag: '\u{1F1F2}\u{1F1FD}', keyPlayer: 'Edson Alvarez' },
-    away: { name: 'South Africa', flag: '\u{1F1FF}\u{1F1E6}', keyPlayer: 'Percy Tau' },
+    home: { name: 'Mexico', code: 'MEX', flag: '\u{1F1F2}\u{1F1FD}', keyPlayer: 'Edson Alvarez' },
+    away: { name: 'South Africa', code: 'SAF', flag: '\u{1F1FF}\u{1F1E6}', keyPlayer: 'Percy Tau' },
   },
   {
     id: 2,
     date: 'Fri, June 12',
     group: 'B',
     venue: 'Toronto',
-    home: { name: 'Canada', flag: '\u{1F1E8}\u{1F1E6}', keyPlayer: 'Alphonso Davies' },
-    away: { name: 'Bosnia & Herzegovina', flag: '\u{1F1E7}\u{1F1E6}', keyPlayer: 'Edin Dzeko' },
+    home: { name: 'Canada', code: 'CAN', flag: '\u{1F1E8}\u{1F1E6}', keyPlayer: 'Alphonso Davies' },
+    away: { name: 'Bosnia & Herzegovina', code: 'BIH', flag: '\u{1F1E7}\u{1F1E6}', keyPlayer: 'Edin Dzeko' },
   },
   {
     id: 3,
     date: 'Fri, June 12',
     group: 'D',
     venue: 'Los Angeles',
-    home: { name: 'USA', flag: '\u{1F1FA}\u{1F1F8}', keyPlayer: 'Christian Pulisic' },
-    away: { name: 'Paraguay', flag: '\u{1F1F5}\u{1F1FE}', keyPlayer: 'Miguel Almiron' },
+    home: { name: 'USA', code: 'USA', flag: '\u{1F1FA}\u{1F1F8}', keyPlayer: 'Christian Pulisic' },
+    away: { name: 'Paraguay', code: 'PAR', flag: '\u{1F1F5}\u{1F1FE}', keyPlayer: 'Miguel Almiron' },
   },
   {
     id: 4,
     date: 'Sat, June 13',
     group: 'C',
     venue: 'New Jersey',
-    home: { name: 'Brazil', flag: '\u{1F1E7}\u{1F1F7}', keyPlayer: 'Vinicius Jr' },
-    away: { name: 'Morocco', flag: '\u{1F1F2}\u{1F1E6}', keyPlayer: 'Achraf Hakimi' },
+    home: { name: 'Brazil', code: 'BRA', flag: '\u{1F1E7}\u{1F1F7}', keyPlayer: 'Vinicius Jr' },
+    away: { name: 'Morocco', code: 'MAR', flag: '\u{1F1F2}\u{1F1E6}', keyPlayer: 'Achraf Hakimi' },
   },
   {
     id: 5,
     date: 'Sun, June 14',
     group: 'E',
     venue: 'Houston',
-    home: { name: 'Germany', flag: '\u{1F1E9}\u{1F1EA}', keyPlayer: 'Jamal Musiala' },
-    away: { name: 'Curacao', flag: '\u{1F1E8}\u{1F1FC}', keyPlayer: 'Juninho Bacuna' },
+    home: { name: 'Germany', code: 'GER', flag: '\u{1F1E9}\u{1F1EA}', keyPlayer: 'Jamal Musiala' },
+    away: { name: 'Curacao', code: 'CUR', flag: '\u{1F1E8}\u{1F1FC}', keyPlayer: 'Juninho Bacuna' },
   },
   {
     id: 6,
     date: 'Sun, June 14',
     group: 'F',
     venue: 'Dallas',
-    home: { name: 'Netherlands', flag: '\u{1F1F3}\u{1F1F1}', keyPlayer: 'Cody Gakpo' },
-    away: { name: 'Japan', flag: '\u{1F1EF}\u{1F1F5}', keyPlayer: 'Takefusa Kubo' },
+    home: { name: 'Netherlands', code: 'NED', flag: '\u{1F1F3}\u{1F1F1}', keyPlayer: 'Cody Gakpo' },
+    away: { name: 'Japan', code: 'JPN', flag: '\u{1F1EF}\u{1F1F5}', keyPlayer: 'Takefusa Kubo' },
   },
   {
     id: 7,
     date: 'Mon, June 15',
     group: 'H',
     venue: 'Atlanta',
-    home: { name: 'Spain', flag: '\u{1F1EA}\u{1F1F8}', keyPlayer: 'Lamine Yamal' },
-    away: { name: 'Cape Verde', flag: '\u{1F1E8}\u{1F1FB}', keyPlayer: 'Ryan Mendes' },
+    home: { name: 'Spain', code: 'ESP', flag: '\u{1F1EA}\u{1F1F8}', keyPlayer: 'Lamine Yamal' },
+    away: { name: 'Cape Verde', code: 'CPV', flag: '\u{1F1E8}\u{1F1FB}', keyPlayer: 'Ryan Mendes' },
   },
   {
     id: 8,
     date: 'Tue, June 16',
     group: 'I',
     venue: 'New Jersey',
-    home: { name: 'France', flag: '\u{1F1EB}\u{1F1F7}', keyPlayer: 'Kylian Mbappe' },
-    away: { name: 'Senegal', flag: '\u{1F1F8}\u{1F1F3}', keyPlayer: 'Sadio Mane' },
+    home: { name: 'France', code: 'FRA', flag: '\u{1F1EB}\u{1F1F7}', keyPlayer: 'Kylian Mbappe' },
+    away: { name: 'Senegal', code: 'SEN', flag: '\u{1F1F8}\u{1F1F3}', keyPlayer: 'Sadio Mane' },
   },
   {
     id: 9,
     date: 'Wed, June 17',
     group: 'L',
     venue: 'Dallas',
-    home: { name: 'England', flag: '\u{1F3F4}\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}', keyPlayer: 'Jude Bellingham' },
-    away: { name: 'Croatia', flag: '\u{1F1ED}\u{1F1F7}', keyPlayer: 'Luka Modric' },
+    home: { name: 'England', code: 'ENG', flag: '\u{1F3F4}\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}', keyPlayer: 'Jude Bellingham' },
+    away: { name: 'Croatia', code: 'CRO', flag: '\u{1F1ED}\u{1F1F7}', keyPlayer: 'Luka Modric' },
   },
   {
     id: 10,
     date: 'Wed, June 17',
     group: 'J',
     venue: 'Kansas City',
-    home: { name: 'Argentina', flag: '\u{1F1E6}\u{1F1F7}', keyPlayer: 'Lionel Messi' },
-    away: { name: 'Algeria', flag: '\u{1F1E9}\u{1F1FF}', keyPlayer: 'Riyad Mahrez' },
+    home: { name: 'Argentina', code: 'ARG', flag: '\u{1F1E6}\u{1F1F7}', keyPlayer: 'Lionel Messi' },
+    away: { name: 'Algeria', code: 'ALG', flag: '\u{1F1E9}\u{1F1FF}', keyPlayer: 'Riyad Mahrez' },
   },
 ]
 
-// Generate all possible scores for buttons
-export function generateScores(): string[] {
+// All scores from 9:0 down to 0:9
+export const ALL_SCORES: string[] = (() => {
   const scores: string[] = []
-  for (let h = 9; h >= 0; h--) {
-    for (let a = 0; a <= 9; a++) {
-      if (h + a <= 9) {
-        scores.push(`${h}:${a}`)
-      }
+  // Home wins: 9:0, 8:0, 8:1, 7:0, ... 1:0
+  for (let h = 9; h >= 1; h--) {
+    for (let a = 0; a < h; a++) {
+      scores.push(`${h}:${a}`)
     }
   }
-  // Deduplicate and sort: high home wins first, then draws, then away wins
-  const unique = [...new Set(scores)]
-  return unique
-}
-
-// Common realistic scores to show as quick picks
-export const SCORE_OPTIONS: string[] = [
-  '1:0', '2:0', '2:1', '3:0', '3:1', '3:2',
-  '0:0', '1:1', '2:2',
-  '0:1', '0:2', '1:2', '0:3', '1:3', '2:3',
-]
+  // Draws: 0:0, 1:1, ... 9:9
+  for (let d = 0; d <= 9; d++) {
+    scores.push(`${d}:${d}`)
+  }
+  // Away wins: 0:1, 0:2, 1:2, ... 0:9
+  for (let a = 2; a <= 9; a++) {
+    for (let h = 0; h < a; h++) {
+      scores.push(`${h}:${a}`)
+    }
+  }
+  return scores
+})()

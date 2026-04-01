@@ -1,5 +1,5 @@
 import React from 'react'
-import { MatchData, SCORE_OPTIONS } from '../data/matches'
+import { MatchData, ALL_SCORES, getCardImage } from '../data/matches'
 import '../styles/MatchCard.css'
 
 interface MatchCardProps {
@@ -15,115 +15,122 @@ export const MatchCard: React.FC<MatchCardProps> = ({ match, prediction, onPredi
   const [selectedScore, setSelectedScore] = React.useState<string | null>(
     prediction?.score || null
   )
-  const [confirmed, setConfirmed] = React.useState(!!prediction)
+
+  const homeCard = getCardImage(match.home.code)
+  const awayCard = getCardImage(match.away.code)
 
   const handleOutcome = (outcome: string) => {
-    if (confirmed) return
-    setSelectedOutcome(outcome)
-    setSelectedScore(null)
-  }
-
-  const handleScore = (score: string) => {
-    if (confirmed) return
-    setSelectedScore(score)
-  }
-
-  const handleConfirm = () => {
-    if (selectedOutcome && selectedScore) {
-      onPredict(match.id, selectedOutcome, selectedScore)
-      setConfirmed(true)
+    if (selectedOutcome === outcome) {
+      setSelectedOutcome(null)
+      setSelectedScore(null)
+    } else {
+      setSelectedOutcome(outcome)
+      setSelectedScore(null)
     }
   }
 
-  const handleEdit = () => {
-    setConfirmed(false)
+  const handleScore = (score: string) => {
+    if (selectedScore === score) {
+      setSelectedScore(null)
+    } else {
+      setSelectedScore(score)
+      // Auto-save when both outcome and score are selected
+      if (selectedOutcome) {
+        onPredict(match.id, selectedOutcome, score)
+      }
+    }
   }
 
-  // Filter scores based on selected outcome
-  const filteredScores = SCORE_OPTIONS.filter(s => {
-    const [h, a] = s.split(':').map(Number)
-    if (selectedOutcome === '1') return h > a
-    if (selectedOutcome === '2') return a > h
-    if (selectedOutcome === 'X') return h === a
-    return true
-  })
-
   return (
-    <div className={`mc ${confirmed ? 'mc--done' : ''}`}>
-      <div className="mc__header">
-        <span className="mc__group">Group {match.group}</span>
-        <span className="mc__date">{match.date}</span>
-      </div>
-      <div className="mc__venue">{match.venue}</div>
-
-      <div className="mc__teams">
-        <div className="mc__team">
-          <span className="mc__flag">{match.home.flag}</span>
-          <span className="mc__name">{match.home.name}</span>
-          <span className="mc__player">{match.home.keyPlayer}</span>
+    <div className="mc">
+      {/* Team cards */}
+      <div className="mc__cards">
+        <div className="mc__card-side">
+          {homeCard ? (
+            <img src={homeCard} alt={match.home.name} className="mc__card-img" />
+          ) : (
+            <div className="mc__card-fallback">
+              <span className="mc__card-flag">{match.home.flag}</span>
+            </div>
+          )}
+          <span className="mc__card-name">{match.home.name}</span>
         </div>
-        <div className="mc__vs">VS</div>
-        <div className="mc__team">
-          <span className="mc__flag">{match.away.flag}</span>
-          <span className="mc__name">{match.away.name}</span>
-          <span className="mc__player">{match.away.keyPlayer}</span>
+
+        <div className="mc__card-vs">
+          <span className="mc__card-vs-text">VS</span>
+          <span className="mc__card-info">Group {match.group}</span>
+          <span className="mc__card-info">{match.date}</span>
+        </div>
+
+        <div className="mc__card-side">
+          {awayCard ? (
+            <img src={awayCard} alt={match.away.name} className="mc__card-img" />
+          ) : (
+            <div className="mc__card-fallback">
+              <span className="mc__card-flag">{match.away.flag}</span>
+            </div>
+          )}
+          <span className="mc__card-name">{match.away.name}</span>
         </div>
       </div>
 
+      {/* Outcome buttons */}
       <div className="mc__outcomes">
         <button
           className={`mc__btn mc__btn--w1 ${selectedOutcome === '1' ? 'mc__btn--active' : ''}`}
           onClick={() => handleOutcome('1')}
-          disabled={confirmed}
         >
           WIN 1
         </button>
         <button
           className={`mc__btn mc__btn--draw ${selectedOutcome === 'X' ? 'mc__btn--active' : ''}`}
           onClick={() => handleOutcome('X')}
-          disabled={confirmed}
         >
           DRAW
         </button>
         <button
           className={`mc__btn mc__btn--w2 ${selectedOutcome === '2' ? 'mc__btn--active' : ''}`}
           onClick={() => handleOutcome('2')}
-          disabled={confirmed}
         >
           WIN 2
         </button>
       </div>
 
+      {/* Score buttons — all from 9:0 to 0:9 */}
       {selectedOutcome && (
         <div className="mc__scores">
-          <div className="mc__scores-label">Exact score:</div>
           <div className="mc__scores-grid">
-            {filteredScores.map(s => (
-              <button
-                key={s}
-                className={`mc__score ${selectedScore === s ? 'mc__score--active' : ''}`}
-                onClick={() => handleScore(s)}
-                disabled={confirmed}
-              >
-                {s}
-              </button>
-            ))}
+            {ALL_SCORES.map(s => {
+              const [h, a] = s.split(':').map(Number)
+              const isWin1 = h > a
+              const isDraw = h === a
+              const isWin2 = a > h
+              const matchesOutcome =
+                (selectedOutcome === '1' && isWin1) ||
+                (selectedOutcome === 'X' && isDraw) ||
+                (selectedOutcome === '2' && isWin2)
+
+              return (
+                <button
+                  key={s}
+                  className={`mc__score ${selectedScore === s ? 'mc__score--active' : ''} ${!matchesOutcome ? 'mc__score--dim' : ''}`}
+                  onClick={() => matchesOutcome && handleScore(s)}
+                  disabled={!matchesOutcome}
+                >
+                  {s}
+                </button>
+              )
+            })}
           </div>
         </div>
       )}
 
-      {selectedOutcome && selectedScore && !confirmed && (
-        <button className="mc__confirm" onClick={handleConfirm}>
-          Confirm prediction
-        </button>
-      )}
-
-      {confirmed && (
+      {/* Saved indicator */}
+      {prediction && (
         <div className="mc__saved">
           <span className="mc__saved-text">
-            {selectedOutcome === '1' ? match.home.name + ' wins' : selectedOutcome === '2' ? match.away.name + ' wins' : 'Draw'} — {selectedScore}
+            {prediction.outcome === '1' ? match.home.name + ' wins' : prediction.outcome === '2' ? match.away.name + ' wins' : 'Draw'} — {prediction.score}
           </span>
-          <button className="mc__edit" onClick={handleEdit}>Edit</button>
         </div>
       )}
     </div>
