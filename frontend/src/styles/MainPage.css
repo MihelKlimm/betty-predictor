@@ -1,33 +1,30 @@
 .main-page {
   padding: 1rem;
   padding-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 80px);
 }
 
 .page-header {
   text-align: center;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1rem;
 }
 
 .page-header h1 {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-weight: 800;
   color: #ffc20d;
-  margin-bottom: 0.15rem;
-}
-
-.page-subtitle {
-  font-size: 0.8rem;
-  color: #888;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.3rem;
 }
 
 .progress-bar {
   width: 100%;
-  height: 6px;
+  height: 5px;
   background: rgba(255, 194, 13, 0.12);
   border-radius: 3px;
   overflow: hidden;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.35rem;
 }
 
 .progress-fill {
@@ -38,11 +35,78 @@
 }
 
 .progress-text {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: #888;
 }
 
-.matches-list {
+/* Single card area */
+.card-area {
+  flex: 1;
+}
+
+/* Prev/Next + dots */
+.card-nav {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 0 0;
+}
+
+.card-nav-btn {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #ffc20d;
+  background: rgba(255, 194, 13, 0.1);
+  border: 1px solid rgba(255, 194, 13, 0.2);
+  border-radius: 8px;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.15s;
+}
+
+.card-nav-btn:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.card-nav-dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 194, 13, 0.15);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dot--current {
+  background: #ffc20d;
+  transform: scale(1.3);
+}
+
+.dot--done {
+  background: rgba(255, 194, 13, 0.5);
+}
+
+.dot--done.dot--current {
+  background: #ffc20d;
+}
+
+/* All done message */
+.all-done {
+  text-align: center;
+  margin-top: 1rem;
+  padding: 0.8rem;
+  background: rgba(255, 194, 13, 0.12);
+  border: 1px solid rgba(255, 194, 13, 0.3);
+  border-radius: 10px;
+  color: #ffc20d;
+  font-weight: 700;
+  font-size: 0.9rem;
 }
