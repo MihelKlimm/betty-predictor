@@ -4,11 +4,10 @@ import { useTelegram } from './hooks/useTelegram'
 import { MainPage } from './pages/MainPage'
 import { Navigation } from './components/Navigation'
 import { LandingPage } from './pages/LandingPage'
-import { ChampionsPage } from './pages/ChampionsPage'
 import { LeaderboardPage } from './pages/LeaderboardPage'
 import { AboutPage } from './pages/AboutPage'
 
-type Page = 'start' | 'matches' | 'champions' | 'leaderboard' | 'about'
+type Page = 'start' | 'matches' | 'leaderboard' | 'about'
 
 function App() {
   const [currentPage, setCurrentPage] = React.useState<Page>('start')
@@ -31,7 +30,6 @@ function App() {
     <div className="app">
       <div className="app-content">
         {currentPage === 'matches' && <MainPage />}
-        {currentPage === 'champions' && <ChampionsPage />}
         {currentPage === 'leaderboard' && <LeaderboardPage />}
         {currentPage === 'about' && <AboutPage />}
       </div>
