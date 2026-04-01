@@ -7,6 +7,8 @@ export const useTelegram = () => {
   useEffect(() => {
     setTg(WebApp)
     WebApp.ready()
+    WebApp.setHeaderColor('#ffd90f')
+    WebApp.setBackgroundColor('#ffd90f')
   }, [])
 
   return {

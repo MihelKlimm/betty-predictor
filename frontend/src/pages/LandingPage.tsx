@@ -3,7 +3,7 @@ import './LandingPage.css'
 
 export const LandingPage: React.FC = () => {
   const handleLaunch = () => {
-    const botUsername = import.meta.env.VITE_TELEGRAM_BOT_USERNAME || 'betty_cup_bot'
+    const botUsername = import.meta.env.VITE_TELEGRAM_BOT_USERNAME || 'betty_worldcup2026_bot'
     const url = `https://t.me/${botUsername}/app`
     window.open(url, '_blank')
   }

@@ -140,49 +140,274 @@
             text-decoration: none;
         }
 
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #222;
+            padding: 0 1rem;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            justify-content: center;
+            gap: 0;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .nav-list li a {
+            display: block;
+            padding: 0.9rem 1.2rem;
+            color: #777;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color 0.2s;
+            white-space: nowrap;
+        }
+
+        .nav-list li a:hover,
+        .nav-list li a.active {
+            color: #1a73e8;
+        }
+
+        .nav-list li a.active {
+            border-bottom: 2px solid #1a73e8;
+        }
+
+        /* Sections */
+        .section {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .section.active {
+            display: flex;
+        }
+
+        .section h2 {
+            font-size: 1.6rem;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .section p.section-desc {
+            color: #888;
+            margin-bottom: 2rem;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        /* Matches & Champions tables */
+        .match-card {
+            background: #151515;
+            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            width: 100%;
+            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .match-teams {
+            font-size: 1rem;
+            color: #e0e0e0;
+        }
+
+        .match-score {
+            font-size: 1rem;
+            color: #1a73e8;
+            font-weight: 600;
+        }
+
+        .match-date {
+            font-size: 0.75rem;
+            color: #555;
+        }
+
+        /* Leaderboard */
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .leaderboard-table th {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            color: #888;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            border-bottom: 1px solid #222;
+        }
+
+        .leaderboard-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #1a1a1a;
+            font-size: 0.9rem;
+        }
+
+        .leaderboard-table tr:hover {
+            background: #151515;
+        }
+
+        .rank-1 { color: #ffd700; }
+        .rank-2 { color: #c0c0c0; }
+        .rank-3 { color: #cd7f32; }
+
+        /* About */
+        .rules-list {
+            list-style: none;
+            width: 100%;
+        }
+
+        .rules-list li {
+            background: #151515;
+            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
+            color: #ccc;
+        }
+
+        .rules-list li strong {
+            color: #fff;
+        }
+
+        .placeholder-msg {
+            color: #555;
+            font-style: italic;
+            padding: 3rem 0;
+        }
+
         @media (max-width: 480px) {
             h1 { font-size: 2rem; }
             .features { grid-template-columns: 1fr; }
+            .nav-list li a { padding: 0.8rem 0.7rem; font-size: 0.78rem; }
         }
     </style>
 </head>
 <body>
-    <div class="hero">
-        <div class="logo-circle">&#9917;</div>
+    <nav>
+        <ul class="nav-list">
+            <li><a href="#home" class="active" onclick="showSection('home', this)">Home</a></li>
+            <li><a href="#champions" onclick="showSection('champions', this)">Champions</a></li>
+            <li><a href="#matches" onclick="showSection('matches', this)">Matches</a></li>
+            <li><a href="#leaderboard" onclick="showSection('leaderboard', this)">Leaderboard</a></li>
+            <li><a href="#about" onclick="showSection('about', this)">About</a></li>
+        </ul>
+    </nav>
 
-        <h1>Betty</h1>
-        <p class="subtitle">World Cup 2026 Predictions</p>
-        <p class="slogan">Sniff the score &mdash; get TONn of emotions!</p>
+    <!-- 1. HOME -->
+    <div id="home" class="section active">
+        <div class="hero">
+            <div class="logo-circle">&#9917;</div>
 
-        <div class="features">
-            <div class="feature">
-                <div class="feature-icon">&#127942;</div>
-                <h3>Predict Scores</h3>
-                <p>Forecast match results for every World Cup 2026 game and earn points.</p>
+            <h1>Betty</h1>
+            <p class="subtitle">World Cup 2026 Predictions</p>
+            <p class="slogan">Sniff the score &mdash; get TONn of emotions!</p>
+
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">&#127942;</div>
+                    <h3>Predict Scores</h3>
+                    <p>Forecast match results for every World Cup 2026 game and earn points.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">&#128200;</div>
+                    <h3>Leaderboards</h3>
+                    <p>Compete with friends and climb the weekly and overall rankings.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">&#128142;</div>
+                    <h3>TON Rewards</h3>
+                    <p>Top predictors earn TON cryptocurrency rewards every week.</p>
+                </div>
             </div>
-            <div class="feature">
-                <div class="feature-icon">&#128200;</div>
-                <h3>Leaderboards</h3>
-                <p>Compete with friends and climb the weekly and overall rankings.</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">&#128142;</div>
-                <h3>TON Rewards</h3>
-                <p>Top predictors earn TON cryptocurrency rewards every week.</p>
-            </div>
+
+            <a href="https://t.me/betty_worldcup2026_bot/Betty" class="cta-btn">
+                <svg class="tg-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+                </svg>
+                Open in Telegram
+            </a>
         </div>
+    </div>
 
-        <!-- Replace YOUR_BOT_USERNAME with actual bot username -->
-        <a href="https://t.me/betty_cup_bot/app" class="cta-btn">
-            <svg class="tg-icon" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
-            </svg>
-            Open in Telegram
-        </a>
+    <!-- 2. CHAMPIONS — past week results -->
+    <div id="champions" class="section">
+        <h2>Champions</h2>
+        <p class="section-desc">Match results from the past week</p>
+        <p class="placeholder-msg">Results will appear here once matches are played.</p>
+    </div>
+
+    <!-- 3. MATCHES — current week progress -->
+    <div id="matches" class="section">
+        <h2>Matches</h2>
+        <p class="section-desc">Current week schedule &amp; progress</p>
+        <p class="placeholder-msg">Upcoming matches will be listed here.</p>
+    </div>
+
+    <!-- 4. LEADERBOARD — ranking -->
+    <div id="leaderboard" class="section">
+        <h2>Leaderboard</h2>
+        <p class="section-desc">Ranking of participants &mdash; points won &amp; TON earned</p>
+        <table class="leaderboard-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Player</th>
+                    <th>Points</th>
+                    <th>TON</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td class="rank-1">1</td><td>—</td><td>—</td><td>—</td></tr>
+                <tr><td class="rank-2">2</td><td>—</td><td>—</td><td>—</td></tr>
+                <tr><td class="rank-3">3</td><td>—</td><td>—</td><td>—</td></tr>
+            </tbody>
+        </table>
+        <p class="placeholder-msg">Leaderboard updates after each match round.</p>
+    </div>
+
+    <!-- 5. ABOUT — rules -->
+    <div id="about" class="section">
+        <h2>About</h2>
+        <p class="section-desc">Rules of the competition</p>
+        <ul class="rules-list">
+            <li><strong>Predict scores</strong> — Submit your predictions for each World Cup 2026 match before kickoff.</li>
+            <li><strong>Earn points</strong> — Exact score = 3 pts, correct outcome = 1 pt, wrong = 0 pts.</li>
+            <li><strong>Weekly rankings</strong> — Leaderboard resets each week. Top predictors earn TON rewards.</li>
+            <li><strong>TON rewards</strong> — Prizes are distributed in TON cryptocurrency to your connected wallet.</li>
+            <li><strong>Fair play</strong> — One account per person. Predictions lock at match kickoff.</li>
+        </ul>
     </div>
 
     <footer>
         <p>Betty Predictor &copy; 2025. Built for World Cup 2026.</p>
     </footer>
+
+    <script>
+        function showSection(id, link) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-list a').forEach(a => a.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            if (link) link.classList.add('active');
+        }
+    </script>
 </body>
 </html>

@@ -2,10 +2,261 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Betty Predictor - World Cup 2026 Predictions</title>
+    <meta name="description" content="Predict World Cup 2026 scores, compete with friends, and earn TON rewards. A Telegram Mini App.">
+    <meta property="og:title" content="Betty Predictor">
+    <meta property="og:description" content="Sniff the score - get TONn of emotions!">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #ffd90f;
+            color: #000;
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        .page {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1.5rem;
+            position: relative;
+        }
+
+        /* Subtle background texture */
+        .page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 10% 15%, rgba(0,0,0,0.04) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0,0,0,0.04) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(0,0,0,0.02) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        /* Logo */
+        .logo-wrap {
+            margin-bottom: 1.5rem;
+        }
+
+        .logo {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #000;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05) rotate(-2deg);
+        }
+
+        /* Title */
+        .title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+        }
+
+        .title-sub {
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            opacity: 0.6;
+            margin-bottom: 1.25rem;
+        }
+
+        /* Slogan */
+        .slogan {
+            font-size: 1.15rem;
+            font-weight: 400;
+            line-height: 1.5;
+            margin-bottom: 2.5rem;
+            font-style: italic;
+        }
+
+        .slogan strong {
+            font-weight: 700;
+        }
+
+        /* CTA Button */
+        .cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: #000;
+            color: #ffd90f;
+            border: none;
+            padding: 1rem 2.2rem;
+            border-radius: 60px;
+            font-family: inherit;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 28px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+        }
+
+        .cta svg {
+            width: 22px;
+            height: 22px;
+            flex-shrink: 0;
+        }
+
+        /* Features */
+        .features {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2.5rem;
+            width: 100%;
+        }
+
+        .feature {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.07);
+            border-radius: 16px;
+            padding: 1.2rem 0.8rem;
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 1.6rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .feature-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 1.2rem;
+            font-size: 0.7rem;
+            opacity: 0.4;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo-wrap { animation: fadeUp 0.5s ease both; }
+        .title { animation: fadeUp 0.5s ease 0.1s both; }
+        .title-sub { animation: fadeUp 0.5s ease 0.15s both; }
+        .slogan { animation: fadeUp 0.5s ease 0.2s both; }
+        .cta { animation: fadeUp 0.5s ease 0.3s both, pulse 2.5s ease-in-out 1.5s infinite; }
+        .features { animation: fadeUp 0.5s ease 0.4s both; }
+
+        /* Pulse on the button */
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 4px 20px rgba(0,0,0,0.25); }
+            50% { box-shadow: 0 4px 30px rgba(0,0,0,0.4); }
+        }
+
+        /* Small screens */
+        @media (max-height: 680px) {
+            .logo { width: 120px; height: 120px; }
+            .title { font-size: 2rem; }
+            .slogan { font-size: 1rem; margin-bottom: 1.5rem; }
+            .features { margin-top: 1.5rem; }
+        }
+
+        @media (max-width: 360px) {
+            .title { font-size: 2rem; }
+            .cta { padding: 0.9rem 1.8rem; font-size: 1rem; }
+            .feature { padding: 1rem 0.5rem; }
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello World</h1>
+    <div class="page">
+        <div class="content">
+            <div class="logo-wrap">
+                <img src="betty-logo.png" alt="Betty the Schnauzer" class="logo">
+            </div>
+
+            <h1 class="title">Betty Predictor</h1>
+            <p class="title-sub">World Cup 2026</p>
+
+            <p class="slogan">Sniff the score &mdash; get <strong>TONn</strong> of emotions!</p>
+
+            <a href="https://t.me/betty_worldcup2026_bot/app" class="cta">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+                </svg>
+                Launch App
+            </a>
+
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">&#9917;</div>
+                    <div class="feature-label">Predict</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">&#127942;</div>
+                    <div class="feature-label">Compete</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">&#128142;</div>
+                    <div class="feature-label">Earn TON</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">BETTY PREDICTOR &copy; 2025</div>
 </body>
 </html>

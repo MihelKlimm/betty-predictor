@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: #FFD700; /* Bright yellow */
+  background: #ffd90f; /* Bright yellow */
   padding: 20px;
 }
 
@@ -41,7 +41,7 @@
 }
 
 .launch-btn {
-  background: #FFD700; /* Bright yellow */
+  background: #ffd90f; /* Bright yellow */
   color: #333;
   border: 2px solid #FFA500;
   padding: 16px 40px;
@@ -50,12 +50,12 @@
   cursor: pointer;
   font-weight: bold;
   transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+  box-shadow: 0 4px 15px rgba(255, 217, 15, 0.4);
 }
 
 .launch-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+  box-shadow: 0 6px 20px rgba(255, 217, 15, 0.6);
 }
 
 .launch-btn:active {

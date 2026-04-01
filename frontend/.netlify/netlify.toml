@@ -10,6 +10,7 @@ redirects = []
 publish = "/home/misha/Ilya/frontend/dist"
 publishOrigin = "ui"
 commandOrigin = "ui"
+base = "/home/misha/Ilya/frontend"
 command = "npm run build"
 
 [build.environment]
