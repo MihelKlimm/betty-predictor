@@ -123,7 +123,7 @@ export const ALL_SCORES: string[] = (() => {
     scores.push(`${d}:${d}`)
   }
   // Away wins
-  for (let a = 9; a >= 2; a--) {
+  for (let a = 9; a >= 1; a--) {
     for (let h = 0; h < a && h + a <= 9; h++) {
       scores.push(`${h}:${a}`)
     }
