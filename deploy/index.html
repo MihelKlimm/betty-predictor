@@ -13,7 +13,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0a0a0a;
+            background: #1f1c09;
             color: #e0e0e0;
             min-height: 100vh;
             display: flex;
@@ -30,24 +30,21 @@
             text-align: center;
         }
 
-        .logo-circle {
-            width: 120px;
-            height: 120px;
+        .logo-img {
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #1a73e8, #0d47a1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
+            object-fit: cover;
+            border: 3px solid #ffc20d;
             margin-bottom: 2rem;
-            box-shadow: 0 0 40px rgba(26, 115, 232, 0.3);
+            box-shadow: 0 0 40px rgba(255, 194, 13, 0.3);
         }
 
         h1 {
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
-            color: #fff;
+            color: #ffc20d;
         }
 
         .subtitle {
@@ -58,7 +55,7 @@
 
         .slogan {
             font-size: 1.2rem;
-            color: #1a73e8;
+            color: #ffc20d;
             margin-bottom: 3rem;
             font-style: italic;
         }
@@ -73,8 +70,8 @@
         }
 
         .feature {
-            background: #151515;
-            border: 1px solid #222;
+            background: rgba(255, 194, 13, 0.08);
+            border: 1px solid rgba(255, 194, 13, 0.2);
             border-radius: 12px;
             padding: 1.5rem;
             text-align: left;
@@ -101,8 +98,8 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            background: #1a73e8;
-            color: #fff;
+            background: #ffc20d;
+            color: #1f1c09;
             border: none;
             padding: 1rem 2.5rem;
             border-radius: 12px;
@@ -114,7 +111,7 @@
         }
 
         .cta-btn:hover {
-            background: #1565c0;
+            background: #e0aa00;
             transform: translateY(-1px);
         }
 
@@ -130,9 +127,9 @@
         footer {
             text-align: center;
             padding: 2rem;
-            color: #444;
+            color: rgba(255, 194, 13, 0.4);
             font-size: 0.8rem;
-            border-top: 1px solid #1a1a1a;
+            border-top: 1px solid rgba(255, 194, 13, 0.15);
         }
 
         footer a {
@@ -145,9 +142,9 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(10, 10, 10, 0.95);
+            background: rgba(31, 28, 9, 0.95);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid #222;
+            border-bottom: 1px solid rgba(255, 194, 13, 0.2);
             padding: 0 1rem;
         }
 
@@ -173,11 +170,11 @@
 
         .nav-list li a:hover,
         .nav-list li a.active {
-            color: #1a73e8;
+            color: #ffc20d;
         }
 
         .nav-list li a.active {
-            border-bottom: 2px solid #1a73e8;
+            border-bottom: 2px solid #ffc20d;
         }
 
         /* Sections */
@@ -198,7 +195,7 @@
 
         .section h2 {
             font-size: 1.6rem;
-            color: #fff;
+            color: #ffc20d;
             margin-bottom: 1rem;
         }
 
@@ -211,8 +208,8 @@
 
         /* Matches & Champions tables */
         .match-card {
-            background: #151515;
-            border: 1px solid #222;
+            background: rgba(255, 194, 13, 0.08);
+            border: 1px solid rgba(255, 194, 13, 0.2);
             border-radius: 12px;
             padding: 1rem 1.5rem;
             width: 100%;
@@ -229,7 +226,7 @@
 
         .match-score {
             font-size: 1rem;
-            color: #1a73e8;
+            color: #ffc20d;
             font-weight: 600;
         }
 
@@ -251,17 +248,17 @@
             font-size: 0.8rem;
             font-weight: 500;
             text-transform: uppercase;
-            border-bottom: 1px solid #222;
+            border-bottom: 1px solid rgba(255, 194, 13, 0.2);
         }
 
         .leaderboard-table td {
             padding: 0.75rem 1rem;
-            border-bottom: 1px solid #1a1a1a;
+            border-bottom: 1px solid rgba(255, 194, 13, 0.1);
             font-size: 0.9rem;
         }
 
         .leaderboard-table tr:hover {
-            background: #151515;
+            background: rgba(255, 194, 13, 0.05);
         }
 
         .rank-1 { color: #ffd700; }
@@ -275,8 +272,8 @@
         }
 
         .rules-list li {
-            background: #151515;
-            border: 1px solid #222;
+            background: rgba(255, 194, 13, 0.08);
+            border: 1px solid rgba(255, 194, 13, 0.2);
             border-radius: 12px;
             padding: 1.2rem 1.5rem;
             margin-bottom: 0.75rem;
@@ -315,7 +312,7 @@
     <!-- 1. HOME -->
     <div id="home" class="section active">
         <div class="hero">
-            <div class="logo-circle">&#9917;</div>
+            <img src="betty-logo.png" alt="Betty" class="logo-img">
 
             <h1>Betty</h1>
             <p class="subtitle">World Cup 2026 Predictions</p>
