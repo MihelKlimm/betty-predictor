@@ -291,10 +291,142 @@
             padding: 3rem 0;
         }
 
+        /* Prediction cards */
+        .predictions-list {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .predict-card {
+            background: rgba(255, 194, 13, 0.08);
+            border: 1px solid rgba(255, 194, 13, 0.2);
+            border-radius: 14px;
+            padding: 1.2rem;
+            width: 100%;
+        }
+
+        .predict-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.6rem;
+        }
+
+        .predict-group {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #ffc20d;
+            background: rgba(255, 194, 13, 0.15);
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+        }
+
+        .predict-date {
+            font-size: 0.75rem;
+            color: #888;
+        }
+
+        .predict-venue {
+            font-size: 0.7rem;
+            color: #666;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .predict-matchup {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+
+        .predict-team {
+            flex: 1;
+            text-align: center;
+        }
+
+        .predict-team-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #e0e0e0;
+            margin-bottom: 0.5rem;
+        }
+
+        .predict-score-input {
+            width: 52px;
+            height: 52px;
+            background: rgba(255, 194, 13, 0.12);
+            border: 2px solid rgba(255, 194, 13, 0.3);
+            border-radius: 10px;
+            color: #ffc20d;
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .predict-score-input:focus {
+            border-color: #ffc20d;
+            background: rgba(255, 194, 13, 0.2);
+        }
+
+        .predict-vs {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #888;
+            padding-top: 1.4rem;
+        }
+
+        .predict-submit {
+            width: 100%;
+            margin-top: 1rem;
+            padding: 0.7rem;
+            background: #ffc20d;
+            color: #1f1c09;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .predict-submit:hover {
+            background: #e0aa00;
+        }
+
+        .predict-submit:active {
+            transform: translateY(1px);
+        }
+
+        .predict-submit.saved {
+            background: #2e7d32;
+            color: #fff;
+        }
+
+        .predict-result {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #888;
+            margin-top: 0.5rem;
+        }
+
+        .loading-msg {
+            color: #888;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
         @media (max-width: 480px) {
             h1 { font-size: 2rem; }
             .features { grid-template-columns: 1fr; }
             .nav-list li a { padding: 0.8rem 0.7rem; font-size: 0.78rem; }
+            .predict-team-name { font-size: 0.8rem; }
+            .predict-score-input { width: 46px; height: 46px; font-size: 1.2rem; }
         }
     </style>
 </head>
@@ -352,11 +484,13 @@
         <p class="placeholder-msg">Results will appear here once matches are played.</p>
     </div>
 
-    <!-- 3. MATCHES — current week progress -->
+    <!-- 3. MATCHES — current week predictions -->
     <div id="matches" class="section">
-        <h2>Matches</h2>
-        <p class="section-desc">Current week schedule &amp; progress</p>
-        <p class="placeholder-msg">Upcoming matches will be listed here.</p>
+        <h2>Matches — Week 1</h2>
+        <p class="section-desc">Predict the score for each match. Winner is determined by your scores.</p>
+        <div id="predictions-container" class="predictions-list">
+            <p class="loading-msg">Loading matches...</p>
+        </div>
     </div>
 
     <!-- 4. LEADERBOARD — ranking -->
@@ -405,6 +539,124 @@
             document.getElementById(id).classList.add('active');
             if (link) link.classList.add('active');
         }
+
+        // Google Sheet ID
+        const SHEET_ID = '1h51r7hnqrzKrLdarypIyrTWS4zRkFL-UGQSrSUwMGus';
+        const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`;
+
+        // Parse CSV
+        function parseCSV(csv) {
+            const lines = csv.trim().split('\n');
+            const headers = lines[0].split(',').map(h => h.replace(/"/g, '').trim());
+            return lines.slice(1).map(line => {
+                const vals = [];
+                let inQuote = false, current = '';
+                for (let i = 0; i < line.length; i++) {
+                    const ch = line[i];
+                    if (ch === '"') { inQuote = !inQuote; continue; }
+                    if (ch === ',' && !inQuote) { vals.push(current.trim()); current = ''; continue; }
+                    current += ch;
+                }
+                vals.push(current.trim());
+                const obj = {};
+                headers.forEach((h, i) => obj[h] = vals[i] || '');
+                return obj;
+            });
+        }
+
+        // Load predictions from localStorage
+        function loadPredictions() {
+            try { return JSON.parse(localStorage.getItem('betty_predictions') || '{}'); }
+            catch { return {}; }
+        }
+
+        // Save prediction
+        function savePrediction(matchId, homeScore, awayScore) {
+            const preds = loadPredictions();
+            preds[matchId] = { home: homeScore, away: awayScore, ts: Date.now() };
+            localStorage.setItem('betty_predictions', JSON.stringify(preds));
+        }
+
+        // Build prediction card
+        function buildCard(match, index) {
+            const parts = match.Matchup.split(' vs. ');
+            const homeTeam = parts[0] || '';
+            const awayTeam = parts[1] || '';
+            const matchId = `match_${index}`;
+            const preds = loadPredictions();
+            const saved = preds[matchId];
+
+            const card = document.createElement('div');
+            card.className = 'predict-card';
+            card.innerHTML = `
+                <div class="predict-header">
+                    <span class="predict-group">Group ${match.Group}</span>
+                    <span class="predict-date">${match.Date}</span>
+                </div>
+                <div class="predict-venue">${match.Venue}</div>
+                <div class="predict-matchup">
+                    <div class="predict-team">
+                        <div class="predict-team-name">${homeTeam}</div>
+                        <input type="number" min="0" max="20" class="predict-score-input" id="${matchId}_home" value="${saved ? saved.home : ''}" placeholder="-">
+                    </div>
+                    <div class="predict-vs">vs</div>
+                    <div class="predict-team">
+                        <div class="predict-team-name">${awayTeam}</div>
+                        <input type="number" min="0" max="20" class="predict-score-input" id="${matchId}_away" value="${saved ? saved.away : ''}" placeholder="-">
+                    </div>
+                </div>
+                <button class="predict-submit ${saved ? 'saved' : ''}" id="${matchId}_btn" onclick="submitPrediction('${matchId}')">
+                    ${saved ? 'Prediction saved' : 'Save prediction'}
+                </button>
+                <div class="predict-result" id="${matchId}_result">
+                    ${saved ? getResultText(saved.home, saved.away, homeTeam, awayTeam) : ''}
+                </div>
+            `;
+            return card;
+        }
+
+        function getResultText(home, away, homeTeam, awayTeam) {
+            const h = parseInt(home), a = parseInt(away);
+            if (isNaN(h) || isNaN(a)) return '';
+            if (h > a) return `Your pick: ${homeTeam} wins ${h}-${a}`;
+            if (a > h) return `Your pick: ${awayTeam} wins ${a}-${h}`;
+            return `Your pick: Draw ${h}-${a}`;
+        }
+
+        function submitPrediction(matchId) {
+            const homeInput = document.getElementById(matchId + '_home');
+            const awayInput = document.getElementById(matchId + '_away');
+            const btn = document.getElementById(matchId + '_btn');
+            const result = document.getElementById(matchId + '_result');
+
+            const h = homeInput.value, a = awayInput.value;
+            if (h === '' || a === '') { btn.textContent = 'Enter both scores!'; return; }
+
+            savePrediction(matchId, h, a);
+            btn.textContent = 'Prediction saved';
+            btn.classList.add('saved');
+
+            const card = btn.closest('.predict-card');
+            const teams = card.querySelectorAll('.predict-team-name');
+            result.textContent = getResultText(h, a, teams[0].textContent, teams[1].textContent);
+        }
+
+        // Fetch and render matches
+        async function loadMatches() {
+            const container = document.getElementById('predictions-container');
+            try {
+                const resp = await fetch(SHEET_URL);
+                const csv = await resp.text();
+                const matches = parseCSV(csv);
+                container.innerHTML = '';
+                matches.forEach((m, i) => container.appendChild(buildCard(m, i)));
+            } catch (err) {
+                container.innerHTML = '<p class="placeholder-msg">Could not load matches. Check back later.</p>';
+                console.error('Failed to load matches:', err);
+            }
+        }
+
+        loadMatches();
     </script>
 </body>
 </html>
