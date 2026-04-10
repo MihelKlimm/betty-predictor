@@ -128,8 +128,8 @@ Single `index.html` file (no React, pure HTML/CSS/JS). Betty branding: yellow `#
 | GET | `/api/telegram/bot-info` | Get bot info | Deployed |
 
 ### Scoring logic (in leaderboard endpoint):
-- Correct 1X2 prediction: **+1 point**
-- Correct exact score: **+3 points** (on top of the 1 point)
+- Correct 1X2 prediction only: **1 point**
+- Correct exact score (includes outcome): **3 points** (total, not added to 1)
 - Only counts finished matches
 
 ### Database tables (D1):
