@@ -93,7 +93,7 @@ export default {
         try { await ingestFifaResults(env); } catch (e) { console.error('ingestFifa failed', e); }
         try {
           const rec = await reconcileResults(env, { apply: true });
-          if (rec.changed) await rebuildMarts(env);
+          if (rec.changed) await rebuildMartsIfChanged(env);
         } catch (e) { console.error('reconcile failed', e); }
       })());
       return;
@@ -103,7 +103,7 @@ export default {
       // Friday: refresh marts, then mirror everything OUT to the sheet.
       ctx.waitUntil((async () => {
         try { await syncAdjustmentsFromSheet(env); } catch (e) { console.error('adj sync failed', e); }
-        await rebuildMarts(env);
+        await rebuildMartsIfChanged(env);
         for (const [tab, fn] of [
           ['Users', syncUsersToSheet],
           ['Bets', syncBetsToSheet],
@@ -152,7 +152,7 @@ export default {
     // Pull manual adjustments, then refresh marts.
     ctx.waitUntil((async () => {
       try { await syncAdjustmentsFromSheet(env); } catch (e) { console.error('adj sync failed', e); }
-      await rebuildMarts(env);
+      await rebuildMartsIfChanged(env);
     })());
   },
 
@@ -1471,6 +1471,58 @@ async function rebuildMarts(env) {
 
   await env.DB.batch(stmts);
   return { ok: true, at: now, champions: champions.length, leaderboard: Object.keys(lbAgg).length, scored_bets: factScore.length };
+}
+
+async function getMartsSourceSignature(env) {
+  const [
+    users,
+    predictions,
+    matches,
+    adjustments,
+    challengePredictions,
+    challenges,
+  ] = await Promise.all([
+    env.DB.prepare(
+      'SELECT COUNT(*) AS count, MAX(updated_at) AS latest FROM users WHERE merged_into IS NULL'
+    ).first(),
+    env.DB.prepare(
+      'SELECT COUNT(*) AS count, MAX(updated_at) AS latest, COALESCE(SUM(points_earned), 0) AS points FROM predictions'
+    ).first(),
+    env.DB.prepare(
+      'SELECT COUNT(*) AS count, MAX(updated_at) AS latest, COALESCE(SUM(home_score), 0) AS home_score, COALESCE(SUM(away_score), 0) AS away_score FROM matches'
+    ).first(),
+    env.DB.prepare(
+      'SELECT COUNT(*) AS count, MAX(created_at) AS latest, COALESCE(SUM(points_delta), 0) AS points FROM bronze_adjustments'
+    ).first(),
+    env.DB.prepare(
+      'SELECT COUNT(*) AS count, MAX(created_at) AS latest, COALESCE(SUM(points_earned), 0) AS points FROM challenge_predictions'
+    ).first(),
+    env.DB.prepare(
+      'SELECT COUNT(*) AS count, MAX(resolved_at) AS latest FROM challenges'
+    ).first(),
+  ]);
+
+  return JSON.stringify({ users, predictions, matches, adjustments, challengePredictions, challenges });
+}
+
+async function rebuildMartsIfChanged(env) {
+  const signature = await getMartsSourceSignature(env);
+  const state = await env.DB.prepare(
+    "SELECT value FROM worker_state WHERE key = 'marts_source_signature'"
+  ).first();
+
+  if (state && state.value === signature) {
+    return { ok: true, skipped: true, reason: 'source data unchanged' };
+  }
+
+  const result = await rebuildMarts(env);
+  await env.DB.prepare(
+    `INSERT INTO worker_state (key, value, updated_at)
+     VALUES ('marts_source_signature', ?, datetime('now'))
+     ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at`
+  ).bind(signature).run();
+
+  return { ...result, skipped: false };
 }
 
 // Normalize a team name for cross-source matching: strip accents + punctuation,
