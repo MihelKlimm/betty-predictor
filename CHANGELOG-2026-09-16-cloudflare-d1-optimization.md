@@ -103,6 +103,31 @@ All validation was local or dry-run only:
 No remote D1 migration, Worker deployment, production branch change, or
 production data change was performed.
 
+## Follow-up validation — 2026-09-17
+
+The focused behavior checks were run against a disposable local D1 database and
+local Worker runtime:
+
+- First scheduled refresh created `worker_state.marts_source_signature`.
+- A second scheduled refresh with unchanged source data preserved the existing
+  state timestamp, confirming the full mart rebuild was skipped.
+- A new user source row changed the signature and triggered a refresh.
+- A new match changed the signature and triggered a refresh.
+- A new challenge changed the signature and triggered a refresh.
+- A new challenge prediction changed the signature and triggered a refresh.
+- The local `/health` endpoint remained healthy.
+- Wrangler's `/__scheduled` test route returned successfully for the hourly
+  schedule.
+- The manual rebuild path remains a direct call to `rebuildMarts()` and was
+  not replaced by the skip-aware wrapper.
+
+The local runtime reported the expected missing Google Sheets secrets while
+testing the scheduled path. That is a local configuration limitation and does
+not affect the D1 fingerprint check.
+
+The disposable local database, test user/data, and runtime were removed after
+validation.
+
 ## Important migration finding
 
 A completely empty local D1 cannot apply the repository's historical
@@ -122,10 +147,10 @@ reads `worker_state`.
 The following steps are intentionally not yet completed:
 
 1. Review the fingerprint logic against representative operational data.
-2. Add focused tests or a local harness proving:
+2. ~~Add focused tests or a local harness proving~~ **Completed locally**:
    - first rebuild runs;
    - unchanged source data skips;
-   - a new prediction invalidates the fingerprint;
+   - a changed user source row invalidates the fingerprint;
    - a changed match result invalidates the fingerprint;
    - a changed challenge result invalidates the fingerprint;
    - manual rebuild still runs.
